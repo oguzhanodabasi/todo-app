@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-todos",
+  "version": "1.0.0",
+  "description": "Node.js todos code",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=.env server.js"
+  },
+  "author": "Oğuzhan Odabaşı",
+  "license": "MIT"
+}
