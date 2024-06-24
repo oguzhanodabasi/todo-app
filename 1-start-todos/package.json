@@ -9,5 +9,8 @@
     "start": "node --env-file=.env server.js"
   },
   "author": "Oğuzhan Odabaşı",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }
