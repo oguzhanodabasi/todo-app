@@ -1,21 +1,7 @@
-// // Route handle for POST /api/todos
-// const createTodoAction = (req, res, todos) => {
-//     let body = '';
-//     req.on('data', chunk => {
-//         body += chunk.toString();
-//     });
-//     req.on('end', () => {
-//         const { title } = JSON.parse(body);
-//         const newTodo = { id: todos.length + 1, title, completed: false };
-//         todos.push(newTodo);
-//         res.statusCode = 201;
-//         res.end(JSON.stringify(newTodo));
-//     });
-// };
-
+import {todos} from '../models/todosData.js'
 
 // Route handle for POST /api/todos
-const createTodoAction = (req, res, todos) => {
+const createTodoAction = (req, res) => {
     const { title } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz
     const newTodo = { id: todos.length + 1, title, completed: false };
     todos.push(newTodo);

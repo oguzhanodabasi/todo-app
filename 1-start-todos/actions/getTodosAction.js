@@ -1,13 +1,7 @@
-// // Route handler for GET /api/todos
-// const getTodosAction = (req, res, todos) => {
-//     res.statusCode = 200;
-//     res.end(JSON.stringify(todos));
+import {todos} from '../models/todosData.js'
 
-//     //res.write(JSON.stringify(todos));
-//     //res.end();
-// };
-
-const getTodosAction = (req, res, todos) => {
+// Route handler for GET /api/todos
+const getTodosAction = (req, res) => {
     res.status(200).json(todos);
 };
 
