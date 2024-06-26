@@ -1,11 +1,14 @@
 import express from 'express';
 
-import { todosRouter } from './routes/todos.js'
+import { todosRouter } from './routes/todosRoute.js'
 import { errorHandler } from './errorHandler.js';
-import { routeNotFoundAction } from './actions/routeNotFoundAction.js';
+import { routeNotFoundAction } from './controllers/notFoundController.js';
 
 const app = express();
 const PORT = process.env.PORT;
+
+// Middleware: JSON parser
+app.use(express.json());
 
 // Middleware: Logger
 app.use((req, res, next) => {
@@ -15,9 +18,6 @@ app.use((req, res, next) => {
 
 // Route: todos
 app.use('/api/todos', todosRouter);
-
-// Middleware: JSON parser
-app.use(express.json());
 
 // Route not found handler
 app.use(routeNotFoundAction);
