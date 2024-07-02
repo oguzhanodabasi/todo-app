@@ -9,12 +9,9 @@ const createTodo = (req, res) => {
 
 // Route handler for DELETE /api/todos/:id
 const deleteTodo = (req, res) => {
-    const deletedTodo = todosService.deleteTodo(req.params.id); // ID'yi URL parametresinden al (Express.js)
-    if (deletedTodo) {
-        res.status(200).json({
-            message: `Todo with id ${deletedTodo.id} deleted`,
-            deletedData: deletedTodo
-        });
+    const isDeleted = todosService.deleteTodo(parse(req.params.id, 10)); // ID'yi URL parametresinden al (Express.js)
+    if (isDeleted) {
+        res.status(200).json({ message: 'Todo is deleted' });
     } else {
         res.status(404).json({ message: 'Todo not found' });
     }
@@ -23,7 +20,7 @@ const deleteTodo = (req, res) => {
 // Route handler for PUT /api/todos/:id
 const updateTodo = (req, res) => {
     const { title, completed } = req.body;
-    const result = todosService.updateTodo(req.params.id, title, completed);
+    const result = todosService.updateTodo(parse(req.params.id, 10), title, completed);
     if (result) {
         res.status(200).json({
             message: `Todo with id ${result.newTodo.id} updated`,
@@ -43,7 +40,7 @@ const getAllTodos = (req, res) => {
 
 // Route handler for GET /api/todos/:id
 const getTodoById = (req, res) => {
-    const todo = todosService.getTodoById(req.params.id);
+    const todo = todosService.getTodoById(parse(req.params.id, 10));
     if (todo) {
         res.status(200).json(todo);
     } else {

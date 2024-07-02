@@ -1,0 +1,13 @@
+version: '3.8'  # Compose dosyasının sürümü
+
+services:  # Uygulamanızın hizmetleri
+  mongodb:  # Hizmetin adı (MongoDB)
+    image: mongo:latest  # Kullanılacak Docker imajı (MongoDB'nin en son sürümü)
+    container_name: my-mongo  # Konteynerin adı
+    ports:  # Konteynerin dış dünya ile hangi portlardan iletişim kuracağını belirler
+      - "27017:27017"  # Konteynerin 27017 portunu, host'un 27017 portuna bağlar
+    volumes:  # Volume tanımları
+      - mongo-data:/data/db  # 'mongo-data' adında bir volume oluşturur ve bunu MongoDB'nin veri depoladığı /data/db dizinine bağlar
+
+volumes:  # Volume'ların tanımlandığı bölüm
+  mongo-data:  # 'mongo-data' adında bir volume tanımlar

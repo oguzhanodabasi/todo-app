@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 
 import { todosRouter } from './routes/todosRoute.js'
 import { errorHandler } from './errorHandler.js';
@@ -9,6 +10,16 @@ const PORT = process.env.PORT;
 
 // Middleware: JSON parser
 app.use(express.json());
+
+// MongoDB'ye bağlanma işlemi
+mongoose.connect('mongodb://localhost:27017/todoApp')
+    .then(() => {
+        console.log('MongoDB\'ye başarıyla bağlandı.');
+    })
+    .catch((err) => {
+        console.error('MongoDB bağlantı hatası:', err.message);
+        process.exit(1); // Uygulamayı hata durumunda sonlandır
+    });
 
 // Middleware: Logger
 app.use((req, res, next) => {
