@@ -7,7 +7,7 @@ services:  # Uygulamanızın hizmetleri
     ports:  # Konteynerin dış dünya ile hangi portlardan iletişim kuracağını belirler
       - "27017:27017"  # Konteynerin 27017 portunu, host'un 27017 portuna bağlar
     volumes:  # Volume tanımları
-      - mongo-data:/data/db  # 'mongo-data' adında bir volume oluşturur ve bunu MongoDB'nin veri depoladığı /data/db dizinine bağlar
+      - ./mongo-data:/data/db  # 'mongo-data' adındaki dosyayı MongoDB'nin veri depoladığı /data/db dizinine bağlar
 
 volumes:  # Volume'ların tanımlandığı bölüm
   mongo-data:  # 'mongo-data' adında bir volume tanımlar

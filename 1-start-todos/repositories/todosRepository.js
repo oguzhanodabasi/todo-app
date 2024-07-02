@@ -1,26 +1,38 @@
 import Todo from '../models/todosModel.js';
 
-const createTodo = (title) => {
-    const newTodo = new Todo({ title });
-    newTodo.save();
+const getNextTodoId = async () => {
+    const lastTodo = await Todo.findOne().sort({ id: -1 });
+    return lastTodo ? lastTodo.id + 1 : 1;
+};
+
+const createTodo = async (title, completed) => {
+    const nextId = await getNextTodoId();
+    const newTodo = new Todo();
+    newTodo.id = nextId;
+    newTodo.title = title;
+    newTodo.completed = completed;
+    await newTodo.save();
     return newTodo;
 }
 
-const deleteTodo = (id) => {
-    return Todo.findByIdAndDelete(id);
+const deleteTodo = async (id) => {
+    const deletedTodo = await Todo.findOneAndDelete({ id });
+    return deletedTodo;
 };
 
-const updateTodo = (id, title, completed) => {
-    return Todo.findByIdAndUpdate(id, { title, completed }, { new: true });
+const updateTodo = async (id, title, completed) => {
+    const updatedTodo = await Todo.findOneAndUpdate({ id }, { title, completed }, { new: true });
+    return updatedTodo;
 };
 
-const getAllTodos = () => {
-    const todos = Todo.find({}).exec();
+const getAllTodos = async () => {
+    const todos = await Todo.find({});
     return todos;
 };
 
-const getTodoById = (id) => {
-    return Todo.findById(id);
+const getTodoById = async (id) => {
+    const todo = await Todo.findOne({ id });
+    return todo;
 };
 
 export default {

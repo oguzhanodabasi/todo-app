@@ -1,5 +1,6 @@
 const errorHandler = (err, req, res, next) => {
-    console.error(err.stack); // Hatanın stack trace'ini konsola yazdırma
+    const endpoint = req.originalUrl || req.route.path || 'Unknown endpoint';
+    console.error(`Hata endpoint: ${endpoint}, \nHata: ${err.stack}`);
 
     // HTTP response ile hatayı müşteriye bildirme
     res.status(500).json({

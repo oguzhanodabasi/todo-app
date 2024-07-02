@@ -1,23 +1,23 @@
 import todoRepository from '../repositories/todosRepository.js';
 
-const createTodo = (title) => {
-    return todoRepository.createTodo(title);
+const createTodo = async (title, completed) => {
+    return await todoRepository.createTodo(title,completed);
 }
 
-const deleteTodo = (id) => {
-    return todoRepository.deleteTodo(id);
+const deleteTodo = async (id) => {
+    return await todoRepository.deleteTodo(id);
 };
 
-const updateTodo = (id, title, completed) => {
-    return todoRepository.updateTodo(id, title, completed);
+const updateTodo = async (id, title, completed) => {
+    return await todoRepository.updateTodo(id, title, completed);
 };
 
-const getAllTodos = () => {
-    return todoRepository.getAllTodos();
+const getAllTodos = async () => {
+    return await todoRepository.getAllTodos();
 };
 
-const getTodoById = (id) => {
-    return todoRepository.getTodoById(id);
+const getTodoById = async (id) => {
+    return await todoRepository.getTodoById(id);
 };
 
 export default {

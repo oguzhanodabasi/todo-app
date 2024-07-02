@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import { todosRouter } from './routes/todosRoute.js'
-import { errorHandler } from './errorHandler.js';
+import { errorHandler } from './utils/errorHandler.js';
 import { routeNotFoundAction } from './controllers/notFoundController.js';
 
 const app = express();
