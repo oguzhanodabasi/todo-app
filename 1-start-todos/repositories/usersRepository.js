@@ -5,12 +5,13 @@ const getNextUserId = async () => {
     return lastTodo ? lastTodo.id + 1 : 1;
 };
 
-const createUser = async (username, email) => {
+const createUser = async (username, email, password) => {
     const nextId = await getNextUserId();
     const newUser = new User();
     newUser.id = nextId;
     newUser.username = username;
     newUser.email = email;
+    newUser.password = password;
     await newUser.save();
     return newUser;
 }
@@ -20,8 +21,8 @@ const deleteUser = async (id) => {
     return deletedUser;
 };
 
-const updateUser = async (id, username, email) => {
-    const updatedUser = await User.findOneAndUpdate({ id }, { username, email }, { new: true });
+const updateUser = async (id, username, email, password) => {
+    const updatedUser = await User.findOneAndUpdate({ id }, { username, email, password }, { new: true });
     return updatedUser;
 };
 

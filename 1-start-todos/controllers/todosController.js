@@ -5,7 +5,8 @@ import todosService from "../services/todosService.js";
 
 // Route handle for POST /api/todos
 const createTodo = asyncHandler(async (req, res) => { // asyncHandler ile route handler'lar tarafından atılan hataları otomatik yakalama
-    const { title, completed, userId } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz
+    const { title, completed } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz
+    const userId = req.user.id; // JWT ile doğrulanmış kullanıcının kimliğini alıyoruz
     const newTodo = await todosService.createTodo(title, completed, userId);
     res.status(201).json(newTodo); // Express.js ile status() ve json() metodları ile response döndürüyoruz
 });
@@ -52,7 +53,7 @@ const getTodoById = asyncHandler(async (req, res) => {
 
 // Route handler for GET /api/todos/users
 const getTodosByUserId = asyncHandler(async (req, res) => {
-    const { userId } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz 
+    const userId = req.user.id; // JWT ile doğrulanmış kullanıcının kimliğini alıyoruz
     const todos = await todosService.getTodosByUserId(userId);
     res.status(200).json(todos);
 });

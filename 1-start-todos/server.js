@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
+import authRouter from './routes/authRoute.js';
 import todosRouter from './routes/todosRoute.js'
 import usersRouter from './routes/usersRoute.js';
 import errorHandler  from './utils/errorHandler.js';
@@ -27,6 +28,9 @@ app.use((req, res, next) => {
     console.log(`${req.method} ${req.url}`);
     next(); // Sonraki middleware veya route handler'a devam etmek için next() fonksiyonunu çağır.
 });
+
+//Route: auth
+app.use('/api/auth', authRouter);
 
 // Route: todos
 app.use('/api/todos', todosRouter);

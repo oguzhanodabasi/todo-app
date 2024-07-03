@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    //password: { type: String, required: true }
+    password: { type: String, required: true },
+    role: { type: String, enum: ['user', 'admin'], default: 'user' }
 }, {
     collection: 'users', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar
