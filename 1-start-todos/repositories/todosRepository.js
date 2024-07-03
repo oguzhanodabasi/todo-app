@@ -5,12 +5,13 @@ const getNextTodoId = async () => {
     return lastTodo ? lastTodo.id + 1 : 1;
 };
 
-const createTodo = async (title, completed) => {
+const createTodo = async (title, completed, userId) => {
     const nextId = await getNextTodoId();
     const newTodo = new Todo();
     newTodo.id = nextId;
     newTodo.title = title;
     newTodo.completed = completed;
+    newTodo.userId = userId;
     await newTodo.save();
     return newTodo;
 }
@@ -35,10 +36,16 @@ const getTodoById = async (id) => {
     return todo;
 };
 
+const getTodosByUserId = async (userId) => {
+    const todos = await Todo.find({ userId: userId }).populate('userId', 'email username');
+    return todos;
+};
+
 export default {
     createTodo,
     deleteTodo,
     updateTodo,
     getAllTodos,
-    getTodoById
+    getTodoById,
+    getTodosByUserId
 };

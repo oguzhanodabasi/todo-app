@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-const todoSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
-    title: { type: String, required: true, unique: true },
-    completed: { type: Boolean, default: false },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // User modeline referans
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    //password: { type: String, required: true }
 }, {
-    collection: 'todos', // Koleksiyon adı burada belirtilir
+    collection: 'users', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar
     timestamps: false,  // createdAt ve updatedAt alanlarını ekler
     versionKey: false,  // __v alanını eklemez
@@ -20,6 +20,6 @@ const todoSchema = new mongoose.Schema({
     // toObject: { virtuals: true }  // Sanal alanları JavaScript objesi çıktısına dahil eder
 });
 
-const Todo = mongoose.model('Todo', todoSchema);
+const User = mongoose.model('User', userSchema);
 
-export default Todo;
+export default User;

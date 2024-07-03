@@ -1,23 +1,27 @@
-import todoRepository from '../repositories/todosRepository.js';
+import todosRepository from '../repositories/todosRepository.js';
 
-const createTodo = async (title, completed) => {
-    return await todoRepository.createTodo(title,completed);
+const createTodo = async (title, completed, userId) => {
+    return await todosRepository.createTodo(title, completed, userId);
 }
 
 const deleteTodo = async (id) => {
-    return await todoRepository.deleteTodo(id);
+    return await todosRepository.deleteTodo(id);
 };
 
 const updateTodo = async (id, title, completed) => {
-    return await todoRepository.updateTodo(id, title, completed);
+    return await todosRepository.updateTodo(id, title, completed);
 };
 
 const getAllTodos = async () => {
-    return await todoRepository.getAllTodos();
+    return await todosRepository.getAllTodos();
 };
 
 const getTodoById = async (id) => {
-    return await todoRepository.getTodoById(id);
+    return await todosRepository.getTodoById(id);
+};
+
+const getTodosByUserId = async (userId) => {
+    return await todosRepository.getTodosByUserId(userId);
 };
 
 export default {
@@ -25,5 +29,6 @@ export default {
     deleteTodo,
     updateTodo,
     getAllTodos,
-    getTodoById
+    getTodoById,
+    getTodosByUserId
 };

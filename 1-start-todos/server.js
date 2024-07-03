@@ -1,9 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import { todosRouter } from './routes/todosRoute.js'
-import { errorHandler } from './utils/errorHandler.js';
-import { routeNotFoundAction } from './controllers/notFoundController.js';
+import todosRouter from './routes/todosRoute.js'
+import usersRouter from './routes/usersRoute.js';
+import errorHandler  from './utils/errorHandler.js';
+import routeNotFoundHandler from './utils/notFoundHandler.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -30,8 +31,11 @@ app.use((req, res, next) => {
 // Route: todos
 app.use('/api/todos', todosRouter);
 
+//Route: users
+app.use('/api/users', usersRouter);
+
 // Route not found handler
-app.use(routeNotFoundAction);
+app.use(routeNotFoundHandler);
 
 // Middleware: Error handler
 app.use(errorHandler);

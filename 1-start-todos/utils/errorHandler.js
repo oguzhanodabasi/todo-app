@@ -3,10 +3,10 @@ const errorHandler = (err, req, res, next) => {
     console.error(`Hata endpoint: ${endpoint}, \nHata: ${err.stack}`);
 
     // HTTP response ile hatayı müşteriye bildirme
-    res.status(500).json({
+    res.status(err.status || 500).json({
         success: false,
-        message: 'Internal Server Error'
+        message: err.message || 'Internal Server Error'
     });
 };
 
-export { errorHandler };
+export default errorHandler;

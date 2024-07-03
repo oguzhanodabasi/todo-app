@@ -8,7 +8,8 @@ const todosRouter = express.Router();
 todosRouter.get('/', todosController.getAllTodos);
 todosRouter.post('/', todosController.createTodo);
 todosRouter.put('/:id', todosController.updateTodo);
+todosRouter.get('/users', todosController.getTodosByUserId);
 todosRouter.get('/:id', todosController.getTodoById);
 todosRouter.delete('/:id', todosController.deleteTodo);
 
-export { todosRouter };
+export default todosRouter;
