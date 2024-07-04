@@ -1,15 +1,15 @@
 import UserRepository from '../repositories/usersRepository.js';
 
-const createUser = async (username, email, password) => {
-    return await UserRepository.createUser(username, email, password);
+const createUser = async (username, password) => {
+    return await UserRepository.createUser(username, password);
 }
 
 const deleteUser = async (id) => {
     return await UserRepository.deleteUser(id);
 };
 
-const updateUser = async (id, username, email, password) => {
-    return await UserRepository.updateUser(id, username, email, password);
+const updateUser = async (id, username, password) => {
+    return await UserRepository.updateUser(id, username, password);
 };
 
 const getAllUsers = async () => {

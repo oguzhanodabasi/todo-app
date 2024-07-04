@@ -4,7 +4,9 @@ const userSchema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' }
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    salt: { type: String, default: '' },
+    refreshToken: { type: String, default: '' }
 }, {
     collection: 'users', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar

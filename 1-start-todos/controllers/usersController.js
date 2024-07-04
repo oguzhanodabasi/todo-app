@@ -3,8 +3,8 @@ import usersService from "../services/usersService.js";
 
 // Route handle for POST /api/users
 const createUser = asyncHandler(async (req, res) => { // asyncHandler ile route handler'lar tarafından atılan hataları otomatik yakalama
-    const { username, email, password } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz
-    const newUser = await usersService.createUser(username, email, password);
+    const { username, password } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz
+    const newUser = await usersService.createUser(username, password);
     res.status(201).json(newUser); // Express.js ile status() ve json() metodları ile response döndürüyoruz
 });
 
@@ -20,8 +20,8 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 // Route handler for PUT /api/todos/:id
 const updateUser = asyncHandler(async (req, res) => {
-    const { username, email, password } = req.body;
-    const updatedUser = await usersService.updateUser(parseInt(req.params.id, 10), username, email);
+    const { username, password } = req.body;
+    const updatedUser = await usersService.updateUser(parseInt(req.params.id, 10), username, password);
     if (updatedUser) {
         res.status(200).json({
             message: `User with id ${updatedUser.id} updated`,
