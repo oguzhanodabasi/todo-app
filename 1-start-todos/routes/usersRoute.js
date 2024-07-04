@@ -1,11 +1,13 @@
 import express from 'express';
 
-import usersController from '../controllers/usersController.js';
+import roleMiddleware from '../middlewares/roleMiddleware.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
+import usersController from '../controllers/usersController.js';
 
 const usersRouter = express.Router();
 
-usersRouter.use(authMiddleware);  // Tüm rotalar için JWT doğrulama
+usersRouter.use(authMiddleware); // Tüm rotalar için JWT doğrulama
+usersRouter.use(roleMiddleware); // Sadece 'admin' rolüne sahip kullanıcılar erişebilir
 // Route Handlers
 usersRouter.get('/', usersController.getAllUsers);
 usersRouter.post('/', usersController.createUser);
