@@ -11,7 +11,9 @@ const createTodo = asyncHandler(async (req, res) => { // asyncHandler ile route 
 
 // Route handler for DELETE /api/todos/:id
 const deleteTodo = asyncHandler(async (req, res) => {
-    const isDeleted = await todosService.deleteTodo(parseInt(req.params.id, 10)); // ID'yi URL parametresinden al (Express.js)
+    const todoId = parseInt(req.params.id, 10);
+    const userId = req.user.id;
+    const isDeleted = await todosService.deleteTodo(todoId, userId); // ID'yi URL parametresinden al (Express.js)
     if (isDeleted) {
         res.status(200).json({ message: 'Todo is deleted' });
     } else {
@@ -22,7 +24,9 @@ const deleteTodo = asyncHandler(async (req, res) => {
 // Route handler for PUT /api/todos/:id
 const updateTodo = asyncHandler(async (req, res) => {
     const { title, completed } = req.body;
-    const updatedTodo = await todosService.updateTodo(parseInt(req.params.id, 10), title, completed);
+    const todoId = parseInt(req.params.id, 10);
+    const userId = req.user.id;
+    const updatedTodo = await todosService.updateTodo(todoId, title, completed, userId);
     if (updatedTodo) {
         res.status(200).json({
             message: `Todo with id ${updatedTodo.id} updated`,
@@ -35,13 +39,16 @@ const updateTodo = asyncHandler(async (req, res) => {
 
 // Route handler for GET /api/todos
 const getAllTodos = asyncHandler(async (req, res) => {
-    const todos = await todosService.getAllTodos();
+    const userId = req.user.id;
+    const todos = await todosService.getAllTodos(userId);
     res.status(200).json(todos);
 });
 
 // Route handler for GET /api/todos/:id
 const getTodoById = asyncHandler(async (req, res) => {
-    const todo = await todosService.getTodoById(parseInt(req.params.id, 10));
+    const todoId = parseInt(req.params.id, 10);
+    const userId = req.user.id;
+    const todo = await todosService.getTodoById(todoId, userId);
     if (todo) {
         res.status(200).json(todo);
     } else {

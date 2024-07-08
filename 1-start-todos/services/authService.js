@@ -2,15 +2,15 @@ import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import User from '../models/usersModel.js';
 
-const generateSalt = () => {
+const _generateSalt = () => {
     return crypto.randomBytes(16).toString('hex'); // Salt oluşturma
 }
 
-const generateRefreshToken = (user) => {
-    return jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d' }); // Refresh token oluşturma
+const _generateRefreshToken = (user) => {
+    return jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' }); // Refresh token oluşturma
 };
 
-const generateAccessToken = (user) => {
+const _generateAccessToken = (user) => {
     return jwt.sign({ id: user._id, role: user.role, salt: user.salt }, process.env.JWT_SECRET, { expiresIn: '15m' }); // Access token oluşturma
 };
 
@@ -20,14 +20,14 @@ const login = async (username, password) => {
         throw new Error('Invalid credentials');
     }
 
-    const salt = generateSalt();
+    const salt = _generateSalt();
     user.salt = salt;
 
-    const refreshToken = generateRefreshToken();
+    const refreshToken = _generateRefreshToken(user);
     user.refreshToken = refreshToken;
     await user.save();
 
-    const accessToken = generateAccessToken(user);
+    const accessToken = _generateAccessToken(user);
 
     return { user, accessToken, refreshToken };
 };
@@ -40,8 +40,8 @@ const refreshToken = async (oldRefreshToken) => {
         throw new Error('Invalid refresh token!');
     }
 
-    const newAccessToken = generateAccessToken(user);
-    const newRefreshToken = generateRefreshToken(user);
+    const newAccessToken = _generateAccessToken(user);
+    const newRefreshToken = _generateRefreshToken(user);
 
     user.refreshToken = newRefreshToken;
     await user.save();

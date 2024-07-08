@@ -4,20 +4,20 @@ const createTodo = async (title, completed, userId) => {
     return await todosRepository.createTodo(title, completed, userId);
 }
 
-const deleteTodo = async (id) => {
-    return await todosRepository.deleteTodo(id);
+const deleteTodo = async (id, userId) => {
+    return await todosRepository.deleteTodo(id, userId);
 };
 
-const updateTodo = async (id, title, completed) => {
-    return await todosRepository.updateTodo(id, title, completed);
+const updateTodo = async (id, title, completed, userId) => {
+    return await todosRepository.updateTodo(id, title, completed, userId);
 };
 
-const getAllTodos = async () => {
-    return await todosRepository.getAllTodos();
+const getAllTodos = async (userId) => {
+    return await todosRepository.getAllTodos(userId);
 };
 
-const getTodoById = async (id) => {
-    return await todosRepository.getTodoById(id);
+const getTodoById = async (id, userId) => {
+    return await todosRepository.getTodoById(id, userId);
 };
 
 const getTodosByUserId = async (userId) => {

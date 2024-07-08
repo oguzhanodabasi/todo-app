@@ -1,15 +1,15 @@
 import mongoose from 'mongoose';
 
 const todoSchema = new mongoose.Schema({
-    id: { type: Number, required: true, unique: true },
-    title: { type: String, required: true, unique: true },
+    id: { type: Number, required: true},
+    title: { type: String, required: true},
     completed: { type: Boolean, default: false },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // User modeline referans
 }, {
     collection: 'todos', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar
-    timestamps: false,  // createdAt ve updatedAt alanlarını ekler
-    versionKey: false,  // __v alanını eklemez
+    timestamps: true,  // createdAt ve updatedAt alanlarını ekler
+    //versionKey: false,  // __v alanını eklemez
     // toJSON: {
     //     virtuals: true,  // Sanal alanları JSON çıktısına dahil eder
     //     transform: (doc, ret) => {  // JSON çıktısını değiştirmek için bir transform fonksiyonu

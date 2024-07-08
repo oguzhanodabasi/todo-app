@@ -1,12 +1,12 @@
 import User from '../models/usersModel.js'
 
-const getNextUserId = async () => {
+const _getNextUserId = async () => {
     const lastTodo = await User.findOne().sort({ id: -1 });
     return lastTodo ? lastTodo.id + 1 : 1;
 };
 
 const createUser = async (username, password) => {
-    const nextId = await getNextUserId();
+    const nextId = await _getNextUserId();
     const newUser = new User();
     newUser.id = nextId;
     newUser.username = username;
