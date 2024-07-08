@@ -9,8 +9,8 @@ const login = asyncHandler(async (req, res) => {
 
 const refreshToken = asyncHandler(async (req, res) => {
     const { refreshToken } = req.body;
-    const { newAccessToken, newRefreshToken } = await authService.refreshToken(refreshToken);
-    res.status(200).json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+    const tokens = await authService.refreshToken(refreshToken);
+    res.status(200).json(tokens);
 });
 
 const logout = asyncHandler(async (req, res) => {
