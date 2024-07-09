@@ -1,51 +1,53 @@
 import Todo from '../models/todosModel.js';
+import Board from '../models/boardsModel.js';
+import UserBoard from '../models/userBoardsModel.js';
 
-const _getNextTodoId = async (userId) => {
-    const lastTodo = await Todo.findOne({ userId: userId }).sort({ id: -1 });
-    return lastTodo ? lastTodo.id + 1 : 1;
-};
+const createTodo = async (title, completed, boardId, userId) => {
+    const userBoard = await UserBoard.findOne({ userId: userId, boardId: boardId });
 
-const createTodo = async (title, completed, userId) => {
-    const nextId = await _getNextTodoId(userId);
+    if (!userBoard) {
+        throw new Error('Unauthorized access to board.');
+    }
+
     const newTodo = new Todo();
-    newTodo.id = nextId;
     newTodo.title = title;
     newTodo.completed = completed;
-    newTodo.userId = userId;
+    newTodo.boardId = boardId;
     await newTodo.save();
+    await Board.findOneAndUpdate({ _id: boardId }, { $addToSet: { todos: newTodo._id } }, { new: true }); // Boards modeline todo eklenir.
     return newTodo;
 }
 
-const deleteTodo = async (id, userId) => {
-    const deletedTodo = await Todo.findOneAndDelete({ id: id, userId: userId });
+const deleteTodo = async (todoId, boardId, userId) => {
+    const userBoard = await UserBoard.findOne({ userId: userId, boardId: boardId });
+
+    if (!userBoard) {
+        throw new Error('Unauthorized access to board.');
+    }
+
+    const deletedTodo = await Todo.findOneAndDelete({ _id: todoId, boardId: boardId });
+
+    if (deletedTodo) {
+        await Board.findOneAndUpdate({ _id: boardId }, { $pull: { todos: todoId } }, { new: true });
+    }
+    
     return deletedTodo;
 };
 
-const updateTodo = async (id, title, completed, userId) => {
-    const updatedTodo = await Todo.findOneAndUpdate({ id: id, userId: userId }, { title, completed }, { new: true });
+const updateTodo = async (todoId, boardId, userId, title, completed) => {
+    const userBoard = await UserBoard.findOne({ userId: userId, boardId: boardId });
+
+    if (!userBoard) {
+        throw new Error('Unauthorized access to board.');
+    }
+
+    const updatedTodo = await Todo.findOneAndUpdate({ _id: todoId, boardId: boardId }, { title, completed }, { new: true });
     return updatedTodo;
 };
 
-const getAllTodos = async (userId) => {
-    const todos = await Todo.find({ userId: userId });
-    return todos;
-};
-
-const getTodoById = async (id, userId) => {
-    const todo = await Todo.findOne({ id: id, userId: userId });
-    return todo;
-};
-
-const getTodosByUserId = async (userId) => {
-    const todos = await Todo.find({ userId: userId }).populate('userId', 'email username');
-    return todos;
-};
 
 export default {
     createTodo,
     deleteTodo,
-    updateTodo,
-    getAllTodos,
-    getTodoById,
-    getTodosByUserId
+    updateTodo
 };

@@ -4,6 +4,7 @@ import connectDB from './db.js';
 import authRouter from './routes/authRoute.js';
 import todosRouter from './routes/todosRoute.js'
 import usersRouter from './routes/usersRoute.js';
+import boardsRouter from './routes/usersRoute.js';
 import errorHandler  from './utils/errorHandler.js';
 import routeNotFoundHandler from './utils/notFoundHandler.js';
 
@@ -24,6 +25,9 @@ app.use((req, res, next) => {
 
 //Route: auth
 app.use('/api/auth', authRouter);
+
+//Route: boards
+app.use('/api/boards', boardsRouter);
 
 // Route: todos
 app.use('/api/todos', todosRouter);

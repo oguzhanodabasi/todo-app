@@ -1,23 +1,23 @@
-import UserRepository from '../repositories/usersRepository.js';
+import userRepository from '../repositories/usersRepository.js';
 
 const createUser = async (username, password) => {
-    return await UserRepository.createUser(username, password);
+    return await userRepository.createUser(username, password);
 }
 
-const deleteUser = async (id) => {
-    return await UserRepository.deleteUser(id);
+const deleteUser = async (userId) => {
+    return await userRepository.deleteUser(userId);
 };
 
-const updateUser = async (id, username, password) => {
-    return await UserRepository.updateUser(id, username, password);
+const updateUser = async (userId, username, password) => {
+    return await userRepository.updateUser(userId, username, password);
 };
 
 const getAllUsers = async () => {
-    return await UserRepository.getAllUsers();
+    return await userRepository.getAllUsers();
 };
 
-const getUserById = async (id) => {
-    return await UserRepository.getUserById(id);
+const getUserById = async (userId) => {
+    return await userRepository.getUserById(userId);
 };
 
 export default {

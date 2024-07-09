@@ -8,9 +8,10 @@ const createUser = asyncHandler(async (req, res) => { // asyncHandler ile route 
     res.status(201).json(newUser); // Express.js ile status() ve json() metodları ile response döndürüyoruz
 });
 
-// Route handler for DELETE /api/users/:id
+// Route handler for DELETE /api/users/:userId
 const deleteUser = asyncHandler(async (req, res) => {
-    const isDeleted = await usersService.deleteUser(parseInt(req.params.id, 10)); // ID'yi URL parametresinden al (Express.js)
+    const userId = req.params.userId;
+    const isDeleted = await usersService.deleteUser(userId); // ID'yi URL parametresinden al (Express.js)
     if (isDeleted) {
         res.status(200).json({ message: 'User is deleted' });
     } else {
@@ -18,10 +19,11 @@ const deleteUser = asyncHandler(async (req, res) => {
     }
 });
 
-// Route handler for PUT /api/todos/:id
+// Route handler for PUT /api/todos/:userId
 const updateUser = asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
     const { username, password } = req.body;
-    const updatedUser = await usersService.updateUser(parseInt(req.params.id, 10), username, password);
+    const updatedUser = await usersService.updateUser(userId, username, password);
     if (updatedUser) {
         res.status(200).json({
             message: `User with id ${updatedUser.id} updated`,
@@ -38,9 +40,10 @@ const getAllUsers = asyncHandler(async (req, res) => {
     res.status(200).json(users);
 });
 
-// Route handler for GET /api/users/:id
+// Route handler for GET /api/users/:userId
 const getUserById = asyncHandler(async (req, res) => {
-    const user = await usersService.getUserById(parseInt(req.params.id, 10));
+    const userId = req.params.userId;
+    const user = await usersService.getUserById(userId);
     if (user) {
         res.status(200).json(user);
     } else {

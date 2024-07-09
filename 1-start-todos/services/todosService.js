@@ -1,34 +1,19 @@
 import todosRepository from '../repositories/todosRepository.js';
 
-const createTodo = async (title, completed, userId) => {
-    return await todosRepository.createTodo(title, completed, userId);
+const createTodo = async (title, completed, boardId, userId) => {
+    return await todosRepository.createTodo(title, completed, boardId, userId);
 }
 
-const deleteTodo = async (id, userId) => {
-    return await todosRepository.deleteTodo(id, userId);
+const deleteTodo = async (todoId, boardId, userId) => {
+    return await todosRepository.deleteTodo(todoId, boardId, userId);
 };
 
-const updateTodo = async (id, title, completed, userId) => {
-    return await todosRepository.updateTodo(id, title, completed, userId);
-};
-
-const getAllTodos = async (userId) => {
-    return await todosRepository.getAllTodos(userId);
-};
-
-const getTodoById = async (id, userId) => {
-    return await todosRepository.getTodoById(id, userId);
-};
-
-const getTodosByUserId = async (userId) => {
-    return await todosRepository.getTodosByUserId(userId);
+const updateTodo = async (todoId, boardId, userId, title, completed) => {
+    return await todosRepository.updateTodo(todoId, boardId, userId, title, completed);
 };
 
 export default {
     createTodo,
     deleteTodo,
-    updateTodo,
-    getAllTodos,
-    getTodoById,
-    getTodosByUserId
+    updateTodo
 };

@@ -1,13 +1,10 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' },
-    salt: { type: String, default: '' },
-    refreshToken: { type: String, default: '' }
+const userBoardSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    boardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Board', required: true }
 }, {
-    collection: 'users', // Koleksiyon adı burada belirtilir
+    collection: 'user_boards', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar
     timestamps: true,  // createdAt ve updatedAt alanlarını ekler
     //versionKey: false,  // __v alanını eklemez
@@ -21,6 +18,5 @@ const userSchema = new mongoose.Schema({
     // toObject: { virtuals: true }  // Sanal alanları JavaScript objesi çıktısına dahil eder
 });
 
-const User = mongoose.model('User', userSchema);
-
-export default User;
+const UserBoard = mongoose.model('UserBoard', userBoardSchema);
+export default UserBoard;

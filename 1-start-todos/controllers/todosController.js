@@ -3,17 +3,17 @@ import todosService from "../services/todosService.js";
 
 // Route handle for POST /api/todos
 const createTodo = asyncHandler(async (req, res) => { // asyncHandler ile route handler'lar tarafından atılan hataları otomatik yakalama
-    const { title, completed } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz
-    const userId = req.user.id; // JWT ile doğrulanmış kullanıcının kimliğini alıyoruz
-    const newTodo = await todosService.createTodo(title, completed, userId);
+    const userId = req.user.id;
+    const { title, completed, boardId } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz
+    const newTodo = await todosService.createTodo(title, completed, boardId, userId);
     res.status(201).json(newTodo); // Express.js ile status() ve json() metodları ile response döndürüyoruz
 });
 
-// Route handler for DELETE /api/todos/:id
+// Route handler for DELETE /api/todos/:todoId/:boardId
 const deleteTodo = asyncHandler(async (req, res) => {
-    const todoId = parseInt(req.params.id, 10);
     const userId = req.user.id;
-    const isDeleted = await todosService.deleteTodo(todoId, userId); // ID'yi URL parametresinden al (Express.js)
+    const { todoId, boardId } = req.params;
+    const isDeleted = await todosService.deleteTodo(todoId, boardId, userId); // ID'yi URL parametresinden al (Express.js)
     if (isDeleted) {
         res.status(200).json({ message: 'Todo is deleted' });
     } else {
@@ -21,15 +21,15 @@ const deleteTodo = asyncHandler(async (req, res) => {
     }
 });
 
-// Route handler for PUT /api/todos/:id
+// Route handler for PUT /api/todos/:todoId/:boardId
 const updateTodo = asyncHandler(async (req, res) => {
-    const { title, completed } = req.body;
-    const todoId = parseInt(req.params.id, 10);
     const userId = req.user.id;
-    const updatedTodo = await todosService.updateTodo(todoId, title, completed, userId);
+    const { todoId, boardId } = req.params;
+    const { title, completed } = req.body;
+    const updatedTodo = await todosService.updateTodo(todoId, boardId, userId, title, completed);
     if (updatedTodo) {
         res.status(200).json({
-            message: `Todo with id ${updatedTodo.id} updated`,
+            message: `Todo with id ${updatedTodo._id} updated`,
             currentData: updatedTodo
         });
     } else {
@@ -37,37 +37,8 @@ const updateTodo = asyncHandler(async (req, res) => {
     }
 });
 
-// Route handler for GET /api/todos
-const getAllTodos = asyncHandler(async (req, res) => {
-    const userId = req.user.id;
-    const todos = await todosService.getAllTodos(userId);
-    res.status(200).json(todos);
-});
-
-// Route handler for GET /api/todos/:id
-const getTodoById = asyncHandler(async (req, res) => {
-    const todoId = parseInt(req.params.id, 10);
-    const userId = req.user.id;
-    const todo = await todosService.getTodoById(todoId, userId);
-    if (todo) {
-        res.status(200).json(todo);
-    } else {
-        res.status(404).json({ message: 'Todo not found' });
-    }
-});
-
-// Route handler for GET /api/todos/users
-const getTodosByUserId = asyncHandler(async (req, res) => {
-    const userId = req.user.id; // JWT ile doğrulanmış kullanıcının kimliğini alıyoruz
-    const todos = await todosService.getTodosByUserId(userId);
-    res.status(200).json(todos);
-});
-
 export default {
     createTodo,
     deleteTodo,
-    updateTodo,
-    getAllTodos,
-    getTodoById,
-    getTodosByUserId
+    updateTodo
 };
