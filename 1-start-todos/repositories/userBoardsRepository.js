@@ -1,28 +1,42 @@
+import User from '../models/usersModel.js';
+import Board from '../models/boardsModel.js'
 import UserBoard from '../models/userBoardsModel.js';
 
-const addUserToBoard = async (userId, boardId) => {
+// Route handler for GET /api/userboards/:boardId
+export const addUserToBoardByEmail = async (adminUserId, boardId, email) => {
+    const board = await Board.findById(boardId);
+
+    if (!board || board.adminUserId.toString() !== adminUserId) {
+        throw new Error('Unauthorized to add users to this board.');
+    }
+
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
+        throw new Error('User with this email does not exist.');
+    }
+
     const userBoard = new UserBoard();
-    userBoard.userId = userId;
+    userBoard.userId = user._id;
     userBoard.boardId = boardId;
     await userBoard.save();
     return userBoard;
 };
 
-const removeUserFromBoard = async (userId, boardId) => {
-    const removedUserFromBoard = UserBoard.findOneAndDelete({ userId: userId, boardId: boardId });
-    return removedUserFromBoard;
-};
+// Route handler for DELETE /api/userboards/:boardId
+export const removeUserFromBoardByEmail = async (adminUserId, boardId, email) => {
+    const board = await Board.findById(boardId);
 
-const removeUserFromAllBoards = async (userId) => {
-    const userBoards = await UserBoard.find({ userId: userId });
-    for (let userBoard of userBoards) {
-        await UserBoard.findOneAndDelete({ userId: userId, _id: userBoard._id });
+    if (!board || board.adminUserId.toString() !== adminUserId) {
+        throw new Error('Unauthorized to remove users from this board.');
     }
-    return { success: true, message: 'User removed from all boards successfully' };
-};
 
-export default {
-    addUserToBoard,
-    removeUserFromBoard,
-    removeUserFromAllBoards
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
+        throw new Error('User with this email does not exist.');
+    }
+    
+    const removedUserFromBoard = await UserBoard.findOneAndDelete({ userId: user._id, boardId: boardId });
+    return removedUserFromBoard;
 };

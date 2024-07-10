@@ -5,7 +5,8 @@ import authRouter from './routes/authRoute.js';
 import todosRouter from './routes/todosRoute.js'
 import usersRouter from './routes/usersRoute.js';
 import boardsRouter from './routes/usersRoute.js';
-import errorHandler  from './utils/errorHandler.js';
+import userBoardsRouter from './routes/userBoardsRoute.js';
+import errorHandler from './utils/errorHandler.js';
 import routeNotFoundHandler from './utils/notFoundHandler.js';
 
 const app = express();
@@ -34,6 +35,9 @@ app.use('/api/todos', todosRouter);
 
 //Route: users
 app.use('/api/users', usersRouter);
+
+//Route: userBoards
+app.use('/api/userboards', userBoardsRouter);
 
 // Route not found handler
 app.use(routeNotFoundHandler);

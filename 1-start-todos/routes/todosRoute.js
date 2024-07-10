@@ -1,7 +1,7 @@
 import express from 'express';
 
 import authMiddleware from '../middlewares/authMiddleware.js';
-import todosController from '../controllers/todosController.js';
+import * as todosController from '../controllers/todosController.js';
 
 const todosRouter = express.Router();
 

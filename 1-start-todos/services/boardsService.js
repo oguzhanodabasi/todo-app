@@ -1,34 +1,25 @@
-import boardsRepository from '../repositories/boardsRepository.js';
+import * as boardsRepository from '../repositories/boardsRepository.js';
 
-const createBoard = async (boardName) => {
-    return await boardsRepository.createBoard(boardName);
+export const createBoard = async (userId, name) => {
+    return await boardsRepository.createBoard(userId, name);
 };
 
-const deleteBoard = async (boardId) => {
-    return await boardsRepository.deleteBoard(boardId);
+export const deleteBoard = async (userId, boardId) => {
+    return await boardsRepository.deleteBoard(userId, boardId);
 };
 
-const updateBoard = async (boardId, name) => {
-    return await boardsRepository.updateBoard(boardId, name);
+export const updateBoard = async (userId, boardId, name) => {
+    return await boardsRepository.updateBoard(userId, boardId, name);
 };
 
-const getAllBoards = async (userId) => {
+export const getAllBoards = async (userId) => {
     return await boardsRepository.getAllBoards(userId);
 };
 
-const getBoardById = async (userId, boardId) => {
+export const getBoardById = async (userId, boardId) => {
     return await boardsRepository.getBoardById(userId, boardId);
 };
 
-const getTodoById = async (userId, boardId, todoId) => {
+export const getTodoById = async (userId, boardId, todoId) => {
     return await boardsRepository.getTodoById(userId, boardId, todoId);
-};
-
-export default {
-    createBoard,
-    deleteBoard,
-    updateBoard,
-    getAllBoards,
-    getBoardById,
-    getTodoById
 };

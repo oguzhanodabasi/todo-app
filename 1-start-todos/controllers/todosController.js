@@ -1,8 +1,8 @@
 import asyncHandler from "../utils/asyncHandler.js";
-import todosService from "../services/todosService.js";
+import * as todosService from "../services/todosService.js";
 
 // Route handle for POST /api/todos
-const createTodo = asyncHandler(async (req, res) => { // asyncHandler ile route handler'lar tarafından atılan hataları otomatik yakalama
+export const createTodo = asyncHandler(async (req, res) => { // asyncHandler ile route handler'lar tarafından atılan hataları otomatik yakalama
     const userId = req.user.id;
     const { title, completed, boardId } = req.body; // Express.js ile req.body üzerinden veriyi alıyoruz
     const newTodo = await todosService.createTodo(title, completed, boardId, userId);
@@ -10,7 +10,7 @@ const createTodo = asyncHandler(async (req, res) => { // asyncHandler ile route 
 });
 
 // Route handler for DELETE /api/todos/:todoId/:boardId
-const deleteTodo = asyncHandler(async (req, res) => {
+export const deleteTodo = asyncHandler(async (req, res) => {
     const userId = req.user.id;
     const { todoId, boardId } = req.params;
     const isDeleted = await todosService.deleteTodo(todoId, boardId, userId); // ID'yi URL parametresinden al (Express.js)
@@ -22,7 +22,7 @@ const deleteTodo = asyncHandler(async (req, res) => {
 });
 
 // Route handler for PUT /api/todos/:todoId/:boardId
-const updateTodo = asyncHandler(async (req, res) => {
+export const updateTodo = asyncHandler(async (req, res) => {
     const userId = req.user.id;
     const { todoId, boardId } = req.params;
     const { title, completed } = req.body;
@@ -36,9 +36,3 @@ const updateTodo = asyncHandler(async (req, res) => {
         res.status(404).json({ message: 'Todo not found' });
     }
 });
-
-export default {
-    createTodo,
-    deleteTodo,
-    updateTodo
-};

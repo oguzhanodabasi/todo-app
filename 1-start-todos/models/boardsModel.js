@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const boardSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    todos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Todo' }]
+    adminUserId: { type: mongoose.Schema.Types.ObjectId, required: true }
 }, {
     collection: 'boards', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar

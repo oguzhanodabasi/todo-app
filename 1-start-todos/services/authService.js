@@ -14,7 +14,7 @@ const _generateAccessToken = (user) => {
     return jwt.sign({ id: user._id, role: user.role, salt: user.salt }, process.env.JWT_SECRET, { expiresIn: '15m' }); // Access token oluşturma
 };
 
-const login = async (username, password) => {
+export const login = async (username, password) => {
     const user = await User.findOne({ username });
     if (!user || user.password !== password) {
         throw new Error('Invalid credentials');
@@ -32,7 +32,7 @@ const login = async (username, password) => {
     return { user, accessToken, refreshToken };
 };
 
-const refreshToken = async (oldRefreshToken) => {
+export const refreshToken = async (oldRefreshToken) => {
     const decoded = jwt.verify(oldRefreshToken, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
 
@@ -49,17 +49,11 @@ const refreshToken = async (oldRefreshToken) => {
     return { accessToken: newAccessToken, refreshToken: newRefreshToken };
 };
 
-const logout = async (userId) => {
+export const logout = async (userId) => {
     const user = await User.findById(userId);
     if (user) {
         user.refreshToken = '';
         user.salt = '';
         await user.save();
     }
-};
-
-export default {
-    login,
-    refreshToken,
-    logout
 };
