@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const userBoardSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    boardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Board', required: true }
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    board_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Board', required: true }
 }, {
     collection: 'user_boards', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar

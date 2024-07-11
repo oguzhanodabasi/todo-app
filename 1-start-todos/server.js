@@ -2,10 +2,8 @@ import express from 'express';
 
 import connectDB from './db.js';
 import authRouter from './routes/authRoute.js';
-import todosRouter from './routes/todosRoute.js'
 import usersRouter from './routes/usersRoute.js';
 import boardsRouter from './routes/usersRoute.js';
-import userBoardsRouter from './routes/userBoardsRoute.js';
 import errorHandler from './utils/errorHandler.js';
 import routeNotFoundHandler from './utils/notFoundHandler.js';
 
@@ -27,17 +25,11 @@ app.use((req, res, next) => {
 //Route: auth
 app.use('/api/auth', authRouter);
 
-//Route: boards
-app.use('/api/boards', boardsRouter);
-
-// Route: todos
-app.use('/api/todos', todosRouter);
-
 //Route: users
 app.use('/api/users', usersRouter);
 
-//Route: userBoards
-app.use('/api/userboards', userBoardsRouter);
+//Route: boards-userboards-todos
+app.use('/api/boards', boardsRouter);
 
 // Route not found handler
 app.use(routeNotFoundHandler);

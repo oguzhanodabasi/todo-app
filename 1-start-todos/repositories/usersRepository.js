@@ -3,7 +3,7 @@ import UserBoard from '../models/userBoardsModel.js';
 
 export const createUser = async (username, password, email) => {
     const newUser = new User();
-    newUser.username = username;
+    newUser.user_name = username;
     newUser.password = password;
     newUser.email = email;
     await newUser.save();
@@ -15,14 +15,14 @@ export const deleteUser = async (userId) => {
 
     // Kullanıcı varsa userBoard tablosundan ilgili kullanıcıyı sil
     if (deletedUser) {
-        await UserBoard.deleteMany({ userId: userId });
+        await UserBoard.deleteMany({ user_id: userId });
     }
 
     return deletedUser;
 };
 
 export const updateUser = async (userId, username, password, email) => {
-    const updatedUser = await User.findOneAndUpdate({ _id: userId }, { username, password, email }, { new: true });
+    const updatedUser = await User.findOneAndUpdate({ _id: userId }, { user_name: username, password, email }, { new: true });
     return updatedUser;
 };
 

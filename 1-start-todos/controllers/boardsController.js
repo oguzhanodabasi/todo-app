@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler';
+import asyncHandler from "../utils/asyncHandler.js";
 import * as boardsService from '../services/boardsService.js';
 
 // Route handle for POST /api/boards

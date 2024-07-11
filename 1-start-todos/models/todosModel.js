@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const todoSchema = new mongoose.Schema({
     title: { type: String, required: true},
     completed: { type: Boolean, default: false },
-    boardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Board', required: true } // Board modeline referans
+    board_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Board', required: true } // Board modeline referans
 }, {
     collection: 'todos', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar

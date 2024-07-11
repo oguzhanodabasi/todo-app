@@ -2,11 +2,10 @@ import User from '../models/usersModel.js';
 import Board from '../models/boardsModel.js'
 import UserBoard from '../models/userBoardsModel.js';
 
-// Route handler for GET /api/userboards/:boardId
 export const addUserToBoardByEmail = async (adminUserId, boardId, email) => {
     const board = await Board.findById(boardId);
 
-    if (!board || board.adminUserId.toString() !== adminUserId) {
+    if (!board || board.admin_user_id.toString() !== adminUserId) {
         throw new Error('Unauthorized to add users to this board.');
     }
 
@@ -17,17 +16,16 @@ export const addUserToBoardByEmail = async (adminUserId, boardId, email) => {
     }
 
     const userBoard = new UserBoard();
-    userBoard.userId = user._id;
-    userBoard.boardId = boardId;
+    userBoard.user_id = user._id;
+    userBoard.board_id = boardId;
     await userBoard.save();
     return userBoard;
 };
 
-// Route handler for DELETE /api/userboards/:boardId
 export const removeUserFromBoardByEmail = async (adminUserId, boardId, email) => {
     const board = await Board.findById(boardId);
 
-    if (!board || board.adminUserId.toString() !== adminUserId) {
+    if (!board || board.admin_user_id.toString() !== adminUserId) {
         throw new Error('Unauthorized to remove users from this board.');
     }
 
@@ -37,6 +35,6 @@ export const removeUserFromBoardByEmail = async (adminUserId, boardId, email) =>
         throw new Error('User with this email does not exist.');
     }
     
-    const removedUserFromBoard = await UserBoard.findOneAndDelete({ userId: user._id, boardId: boardId });
+    const removedUserFromBoard = await UserBoard.findOneAndDelete({ user_id: user._id, board_id: boardId });
     return removedUserFromBoard;
 };

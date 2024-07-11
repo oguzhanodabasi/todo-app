@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
-    username: { type: String, required: true, unique: true },
+    user_name: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
     salt: { type: String, default: '' },
-    refreshToken: { type: String, default: '' }
+    refresh_token: { type: String, default: '' }
 }, {
     collection: 'users', // Koleksiyon adı burada belirtilir
     minimize: false,  // Boş alt belgeleri belgede tutar
