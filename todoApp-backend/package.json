@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-todos",
+  "name": "todoapp-backend",
   "version": "1.0.0",
-  "description": "Node.js todos code",
+  "description": "todo app backend",
   "main": "server.js",
   "type": "module",
   "scripts": {
