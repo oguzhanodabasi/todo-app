@@ -15,7 +15,7 @@ const _generateAccessToken = (user) => {
 };
 
 export const login = async (username, password) => {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ user_name: username });
     if (!user || user.password !== password) {
         throw new Error('Invalid credentials');
     }
@@ -24,7 +24,7 @@ export const login = async (username, password) => {
     user.salt = salt;
 
     const refreshToken = _generateRefreshToken(user);
-    user.refreshToken = refreshToken;
+    user.refresh_token = refreshToken;
     await user.save();
 
     const accessToken = _generateAccessToken(user);

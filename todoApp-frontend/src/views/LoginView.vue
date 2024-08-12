@@ -8,8 +8,22 @@ const loginForm = reactive({
 
 const loginFormRef = ref(null)
 
+const rules = {
+  email: [{ required: true, message: 'Please input email', trigger: 'blur' }],
+  password: [
+    { required: true, message: 'Please input password', trigger: 'blur' },
+  ],
+}
+
 const handleLogin = () => {
-  console.log('Login attempt:', loginForm)
+  loginFormRef.value.validate((valid) => {
+    if (valid) {
+      alert('Login successful')
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
 }
 </script>
 
@@ -17,15 +31,20 @@ const handleLogin = () => {
   <div class="login-container">
     <el-card class="login-card">
       <h2 class="login-title">Login</h2>
-      <el-form :model="loginForm" ref="loginFormRef">
-        <el-form-item label="Email">
-          <el-input v-model="loginForm.email" autocomplete="off"></el-input>
+      <el-form :model="loginForm" :rules="rules" ref="loginFormRef">
+        <el-form-item prop="email">
+          <el-input
+            v-model="loginForm.email"
+            autocomplete="off"
+            placeholder="Email"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="Password">
+        <el-form-item prop="password">
           <el-input
             type="password"
             v-model="loginForm.password"
             autocomplete="off"
+            placeholder="Password"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -46,11 +65,15 @@ const handleLogin = () => {
 .login-card {
   width: 400px;
   padding: 20px;
-  background-color: rgb(180, 202, 235);
+  background-color: rgb(217, 227, 243);
 }
 
 .login-title {
   text-align: center;
   margin-bottom: 40px;
+}
+
+:deep(.el-form-item__content) {
+  justify-content: center;
 }
 </style>
