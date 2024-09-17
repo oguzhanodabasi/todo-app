@@ -47,33 +47,20 @@ const handleLogin = () => {
             placeholder="Password"
           ></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="handleLogin">Login</el-button>
-        </el-form-item>
+        <el-row>
+          <el-col :span="8"></el-col>
+          <el-col :span="8"><el-button type="primary" @click="handleLogin">Login</el-button></el-col>
+          <el-col :span="8"></el-col>
+        </el-row>
       </el-form>
     </el-card>
   </div>
 </template>
 
 <style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .login-card {
   width: 400px;
   padding: 20px;
   background-color: rgb(217, 227, 243);
-}
-
-.login-title {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-:deep(.el-form-item__content) {
-  justify-content: center;
 }
 </style>
