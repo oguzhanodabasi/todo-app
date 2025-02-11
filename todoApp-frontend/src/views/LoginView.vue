@@ -1,29 +1,54 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+import { authService } from '../services/auth.service.js'
 
-const loginForm = reactive({
-  email: '',
+const router = useRouter()
+const formRef = ref(null)
+const loading = ref(false)
+
+const formData = reactive({
+  username: '',
   password: '',
 })
 
-const loginFormRef = ref(null)
-
 const rules = {
-  email: [{ required: true, message: 'Please input email', trigger: 'blur' }],
+  username: [
+    { required: true, message: 'Username is required', trigger: 'blur' },
+    { min: 3, message: 'Minimum 3 characters', trigger: 'blur' },
+  ],
   password: [
-    { required: true, message: 'Please input password', trigger: 'blur' },
+    { required: true, message: 'Password is required', trigger: 'blur' },
+    { min: 6, message: 'Minimum 6 characters', trigger: 'blur' },
   ],
 }
 
-const handleLogin = () => {
-  loginFormRef.value.validate((valid) => {
-    if (valid) {
-      alert('Login successful')
-    } else {
-      console.log('error submit!')
-      return false
+const handleLogin = async () => {
+  if (!formRef.value) return
+
+  try {
+    await formRef.value.validate()
+    loading.value = true
+
+    const response = await authService.login({
+      username: formData.username,
+      password: formData.password,
+    })
+
+    localStorage.setItem('token', response.accessToken)
+
+    ElMessage.success('Login successful!')
+    router.push('/dashboard')
+  } catch (err) {
+    if (err.response) {
+      ElMessage.error(err.response.data.message || 'Login failed')
+    } else if (!err.response) {
+      ElMessage.error('Connection failed')
     }
-  })
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -31,25 +56,30 @@ const handleLogin = () => {
   <div class="login-container">
     <el-card class="login-card">
       <h2 class="login-title">Login</h2>
-      <el-form :model="loginForm" :rules="rules" ref="loginFormRef">
-        <el-form-item prop="email">
+      <el-form :model="formData" :rules="rules" ref="formRef">
+        <el-form-item prop="username">
           <el-input
-            v-model="loginForm.email"
+            v-model="formData.username"
             autocomplete="off"
-            placeholder="Email"
+            placeholder="Username"
           ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
             type="password"
-            v-model="loginForm.password"
+            v-model="formData.password"
             autocomplete="off"
             placeholder="Password"
+            show-password
           ></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="8"></el-col>
-          <el-col :span="8"><el-button type="primary" @click="handleLogin">Login</el-button></el-col>
+          <el-col :span="8">
+            <el-button type="primary" @click="handleLogin" :loading="loading">
+              {{ loading ? 'Loading...' : 'Login' }}
+            </el-button>
+          </el-col>
           <el-col :span="8"></el-col>
         </el-row>
       </el-form>
@@ -58,9 +88,22 @@ const handleLogin = () => {
 </template>
 
 <style scoped>
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .login-card {
   width: 400px;
   padding: 20px;
   background-color: rgb(217, 227, 243);
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #303133;
 }
 </style>

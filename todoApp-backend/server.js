@@ -1,5 +1,5 @@
 import express from 'express';
-
+import cors from 'cors';
 import connectDB from './db.js';
 import authRouter from './routes/authRoute.js';
 import usersRouter from './routes/usersRoute.js';
@@ -9,6 +9,14 @@ import routeNotFoundHandler from './utils/notFoundHandler.js';
 
 const app = express();
 const PORT = process.env.PORT;
+
+// CORS middleware'i - diğer middleware'lerden önce ekleyin
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Middleware: JSON parser
 app.use(express.json());
