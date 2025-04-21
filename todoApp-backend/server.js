@@ -17,7 +17,7 @@ const PORT = process.env.PORT;
 
 // CORS middleware'i - diğer middleware'lerden önce ekleyin
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'todo-app-frontend-flax.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
