@@ -1,7 +1,11 @@
 import axios from 'axios'
 
+const baseURL = import.meta.env.PROD
+    ? 'https://my-backend.up.railway.app/api'
+    : 'http://localhost:8001/api';
+
 const api = axios.create({
-    baseURL: 'http://localhost:8001/api',
+    baseURL,
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json'

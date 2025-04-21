@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import connectDB from './db.js';
@@ -6,6 +7,10 @@ import usersRouter from './routes/usersRoute.js';
 import boardsRouter from './routes/usersRoute.js';
 import errorHandler from './utils/errorHandler.js';
 import routeNotFoundHandler from './utils/notFoundHandler.js';
+
+
+// .env dosyasını yükle
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
