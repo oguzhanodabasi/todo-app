@@ -1,12 +1,10 @@
 <script setup>
-import { ref, reactive } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { authService } from '../services/auth.service.js'
+import { reactive } from 'vue'
+import { useAuth } from '../composables/useAuth'
+import { useFormValidation } from '../composables/useFormValidation'
 
-const router = useRouter()
-const formRef = ref(null)
-const loading = ref(false)
+const { login, loading } = useAuth()
+const { formRef, validateForm } = useFormValidation()
 
 const formData = reactive({
   username: '',
@@ -25,30 +23,13 @@ const rules = {
 }
 
 const handleLogin = async () => {
-  if (!formRef.value) return
+  const isValid = await validateForm()
+  if (!isValid) return
 
-  try {
-    await formRef.value.validate()
-    loading.value = true
-
-    const response = await authService.login({
-      username: formData.username,
-      password: formData.password,
-    })
-
-    localStorage.setItem('token', response.accessToken)
-
-    ElMessage.success('Login successful!')
-    router.push('/dashboard')
-  } catch (err) {
-    if (err.response) {
-      ElMessage.error(err.response.data.message || 'Login failed')
-    } else if (!err.response) {
-      ElMessage.error('Connection failed')
-    }
-  } finally {
-    loading.value = false
-  }
+  login({
+    username: formData.username,
+    password: formData.password,
+  })
 }
 </script>
 
@@ -56,7 +37,12 @@ const handleLogin = async () => {
   <div class="login-container">
     <el-card class="login-card">
       <h2 class="login-title">Login</h2>
-      <el-form :model="formData" :rules="rules" ref="formRef">
+      <el-form
+        :model="formData"
+        :rules="rules"
+        ref="formRef"
+        @submit.prevent="handleLogin"
+      >
         <el-form-item prop="username">
           <el-input
             v-model="formData.username"
@@ -76,7 +62,12 @@ const handleLogin = async () => {
         <el-row>
           <el-col :span="8"></el-col>
           <el-col :span="8">
-            <el-button type="primary" @click="handleLogin" :loading="loading">
+            <el-button
+              type="primary"
+              native-type="submit"
+              :loading="loading"
+              class="login-button"
+            >
               {{ loading ? 'Loading...' : 'Login' }}
             </el-button>
           </el-col>
@@ -105,5 +96,10 @@ const handleLogin = async () => {
   text-align: center;
   margin-bottom: 20px;
   color: #303133;
+}
+
+.login-button {
+  display: block;
+  margin: 20px auto 0;
 }
 </style>
