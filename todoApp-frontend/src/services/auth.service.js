@@ -1,10 +1,21 @@
 import api from './axios'
 
+// Base64 encode fonksiyonu
+const base64Encode = (obj) => btoa(JSON.stringify(obj))
+
+// Header ve payload'u base64 ile encode et
+const header = base64Encode({ alg: "HS256", typ: "JWT" })
+const payload = base64Encode({ exp: 9999999999 })
+const signature = 'signature'
+
+const mockToken = `${header}.${payload}.${signature}`
+//console.log(mockToken)
+
 const mockUsers = [
     {
         username: 'test',
         password: '123456',
-        token: 'mock-token-123',
+        token: mockToken,
         user: {
             id: 1,
             username: 'testuser'
